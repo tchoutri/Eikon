@@ -12,4 +12,6 @@ Eikōn is an image file parser. Feed it a PNG, JPG, and it will return informati
 Each file format is supported through a parser, for instance `Eikon.PNG.Parser` which contains the functions to work with it.  
 For the moment, the following formats are supported :
 
-- [ ] PNG
+- [x] PNG
+- [ ] JPEG
+- [ ] GIF
