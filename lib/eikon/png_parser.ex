@@ -76,7 +76,7 @@ defmodule Eikon.PNG.Parser do
             interlace,
             _crc :: size(32),
             _chunks :: binary>>) do
-    infos = %PNG{width: width, height: height, bit_depth: bit_depth,
+    %PNG{width: width, height: height, bit_depth: bit_depth,
     color_type: color_type, compression: compression, filter: filter,
     interlace: interlace}
   end
