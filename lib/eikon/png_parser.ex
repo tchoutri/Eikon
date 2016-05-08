@@ -13,16 +13,17 @@ defmodule Eikon.PNG do
 end
 
 defmodule Eikon.PNG.Parser do
-  alias Eikon.PNG
   @moduledoc """
-  Provide a basic though useful interface for PNG files.
+  Provide a basic interface for PNG files.
   """
+  alias Eikon.PNG
 
   # Type definitions
   @typedoc """
   Header of the PNG file.
   """
   @type magic :: bitstring()
+
   @type chunk_length :: integer()
   @type width :: integer()
   @type height :: integer()
@@ -31,6 +32,7 @@ defmodule Eikon.PNG.Parser do
   @type filter :: integer()
   @type crc :: integer()
   @type interlace :: integer()
+
   @type png :: struct()
 
   # Headers
@@ -77,7 +79,6 @@ defmodule Eikon.PNG.Parser do
     infos = %PNG{width: width, height: height, bit_depth: bit_depth,
     color_type: color_type, compression: compression, filter: filter,
     interlace: interlace}
-    infos 
   end
 
   @doc "Returns the content of the PNG file (aka: the image itself)"
