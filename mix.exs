@@ -27,8 +27,7 @@ defmodule Eikon.Mixfile do
       files:       ["lib", "README.md", "mix.exs"],
       maintainers: ["Théophile Choutri <theophile@choutri.eu>"], 
       licenses:    ["MIT"],
-      links:       %{"Github" => "https://github.com/tchoutri/eikon", "Hex" => "https://hex.pm/packages/eikon", 
-                     "Documentation" => "https://hexdocs.pm/eikon"}
+      links:       %{"Github" => "https://github.com/tchoutri/eikon", "Documentation" => "https://hexdocs.pm/eikon"}
     ]
   end
 end
