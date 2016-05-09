@@ -66,7 +66,7 @@ defmodule Eikon.PNG.Parser do
   @doc "Returns the metadata about the PNG file."
   @spec infos(bitstring) :: png
   def infos(<<@magic, 
-            _lenght :: size(32),
+            _length :: size(32),
             "IHDR",
             width   :: size(32),
             height  :: size(32),
@@ -86,7 +86,7 @@ defmodule Eikon.PNG.Parser do
   @doc "Returns the content of the PNG file (aka: the image itself)"
   @spec content(bitstring) :: bitstring
   def content(<<@magic, 
-            _lenght :: size(32),
+            _length :: size(32),
             "IHDR",
             _width   :: size(32),
             _height  :: size(32),
