@@ -16,7 +16,8 @@ defmodule Eikon.PNG.Parser do
   @moduledoc """
   Provide a basic interface for PNG files.
   """
-  alias Eikon.PNG
+  alias Eikon.{PNG,Parser}
+  @behaviour Parser
 
   # Type definitions
   @typedoc """
@@ -96,5 +97,5 @@ defmodule Eikon.PNG.Parser do
             _crc :: size(32),
             chunks :: binary>>) do
     chunks
- end
+  end
 end
