@@ -27,22 +27,22 @@ defmodule Eikon.GIF.Parser do
 
   @doc "Returns the metadata about the GIF file."
   @spec infos(bitstring) :: gif
-  def infos(<<@magic89, width :: size(16), height :: size(16), _rest :: binary>>) do
+  def infos(<<@magic89, width :: size(16), height :: size(16), _ :: binary>>) do
     %GIF{width: width, height: height, version: "89a"}
   end
-  def infos(<<@magic87, width :: size(16), height :: size(16), _rest :: binary>>) do
+  def infos(<<@magic87, width :: size(16), height :: size(16), _ :: binary>>) do
     %GIF{width: width, height: height, version: "89a"}
   end
 
   @doc "Returns the content of the GIF file"
   @spec content(bitstring) :: bitstring | no_return
-  def content(gif) do
-  end
+  def content(<<@magic89, _width :: size(16), _height :: size(16), rest :: binary>>), do: rest
+  def content(<<@magic87, _width :: size(16), _height :: size(16), rest :: binary>>), do: rest
 
   @spec parse(bitstring) :: {:ok, struct} | {:error, term}
   def parse(gif) do
     if magic?(gif) do
-      result = infos(gif) |> struct(chunks: content(gif))
+      result = infos(gif) |> struct(images: content(gif))
       {:ok, result}
     else
       {:error, "Invalid file format!"}
