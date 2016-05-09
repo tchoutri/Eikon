@@ -3,29 +3,56 @@ defmodule Eikon.GIF do
             :width,
             :height,
             :version,
-
+            :images
             ]
 end
+
 defmodule Eikon.GIF.Parser do
   @moduledoc """
-  Provide a basic interface for PNG files.
+  Provide a basic interface for GIF files.
   """
-  alias Eikon.GIF
+  alias Eikon.{GIF,Parser}
+  @behaviour Parser
 
   @type gif :: struct()
 
   @magic89 <<0x47, 0x49, 0x46, 0x38, 0x39, 0x61>>
   @magic87 <<0x47, 0x49, 0x46, 0x38, 0x37, 0x61>>
 
+  @doc "Check the magic number of the file."
+  @spec magic?(bitstring) :: true | false
   def magic?(<<@magic89, _rest :: binary>>), do: true
   def magic?(<<@magic87, _rest :: binary>>), do: true
-  def magic?(_),                            do: false
+  def magic?(_),                             do: false
 
+  @doc "Returns the metadata about the GIF file."
   @spec infos(bitstring) :: gif
   def infos(<<@magic89, width :: size(16), height :: size(16), _rest :: binary>>) do
     %GIF{width: width, height: height, version: "89a"}
   end
   def infos(<<@magic87, width :: size(16), height :: size(16), _rest :: binary>>) do
     %GIF{width: width, height: height, version: "89a"}
+  end
+
+  @doc "Returns the content of the GIF file"
+  @spec content(bitstring) :: bitstring | no_return
+  def content(gif) do
+  end
+
+  @spec parse(bitstring) :: {:ok, struct} | {:error, term}
+  def parse(gif) do
+    if magic?(gif) do
+      result = infos(gif) |> struct(chunks: content(gif))
+      {:ok, result}
+    else
+      {:error, "Invalid file format!"}
+    end
+  end
+
+  def parse!(gif) do
+    case parse(gif) do
+      {:ok, %GIF{}=gif} -> gif
+      {:error, msg} -> raise(ArgumentError, msg)
+    end
   end
 end
