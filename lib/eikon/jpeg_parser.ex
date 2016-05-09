@@ -9,9 +9,10 @@ end
 
 defmodule Eikon.JPEG.Parser do
   alias Eikon.JPEG
-  @moduledoc """
-  Provides a basic interface for JPEG files.
-  """
+  @moduledoc false
+  #@moduledoc """
+  #Provides a basic interface for JPEG files.
+  #"""
 
   @type jpeg :: struct()
 

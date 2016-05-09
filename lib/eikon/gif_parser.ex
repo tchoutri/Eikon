@@ -1,4 +1,5 @@
 defmodule Eikon.GIF do
+  @moduledoc false
   defstruct [
             :width,
             :height,
@@ -9,7 +10,7 @@ end
 
 defmodule Eikon.GIF.Parser do
   @moduledoc """
-  Provide a basic interface for GIF files.
+  Provides a basic interface for GIF files.
   """
   alias Eikon.{GIF,Parser}
   @behaviour Parser

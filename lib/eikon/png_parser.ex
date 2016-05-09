@@ -14,15 +14,12 @@ end
 
 defmodule Eikon.PNG.Parser do
   @moduledoc """
-  Provide a basic interface for PNG files.
+  Provides a basic interface for PNG files.
   """
   alias Eikon.{PNG,Parser}
   @behaviour Parser
 
   # Type definitions
-  @typedoc """
-  Header of the PNG file.
-  """
   @type magic :: bitstring()
 
   @type chunk_length :: integer()
@@ -40,7 +37,7 @@ defmodule Eikon.PNG.Parser do
   @magic <<0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A>>
 
   ## API
-  @doc "Parses the file and returns a %PNG{} struct"
+  @doc "Parse "
   @spec parse(bitstring) :: {:ok, struct} | {:error, term}
   def parse(png) do
     if magic?(png) do
