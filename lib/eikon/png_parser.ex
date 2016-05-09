@@ -81,6 +81,7 @@ defmodule Eikon.PNG.Parser do
     color_type: color_type, compression: compression, filter: filter,
     interlace: interlace}
   end
+  def infos(_), do: raise(ArgumentError, "Invalid file format!")
 
   @doc "Returns the content of the PNG file (aka: the image itself)"
   @spec content(bitstring) :: bitstring
