@@ -14,4 +14,4 @@ For the moment, the following formats are supported :
 
 - [x] PNG
 - [ ] JPEG
-- [ ] GIF
+- [x] GIF (Although `content/1` could be improved)
