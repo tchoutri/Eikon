@@ -37,7 +37,7 @@ defmodule Eikon.PNG.Parser do
   @magic <<0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A>>
 
   ## API
-  @doc "Parse "
+  @doc "Parse a bitstring and return a struct with its metadata and content"
   @spec parse(bitstring) :: {:ok, struct} | {:error, term}
   def parse(png) do
     if magic?(png) do
@@ -55,12 +55,12 @@ defmodule Eikon.PNG.Parser do
     end
   end
 
-  @doc "Check the magic number of the file."
+  @doc "Check data's magic number"
   @spec magic?(bitstring) :: true | false
   def magic?(<<@magic, _ :: binary>>), do: true
   def magic?(_),                       do: false
 
-  @doc "Returns the metadata about the PNG file."
+  @doc "Returns the PNG metadata"
   @spec infos(bitstring) :: png
   def infos(<<@magic, 
             _length :: size(32),
@@ -81,7 +81,7 @@ defmodule Eikon.PNG.Parser do
   def infos(_), do: raise(ArgumentError, "Invalid file format!")
 
   @doc "Returns the content of the PNG file (aka: the image itself)"
-  @spec content(bitstring) :: bitstring
+  @spec content(bitstring) :: {:ok, bitstring} | {:error, term}
   def content(<<@magic, 
             _length :: size(32),
             "IHDR",
@@ -94,6 +94,15 @@ defmodule Eikon.PNG.Parser do
             _interlace,
             _crc :: size(32),
             chunks :: binary>>) do
-    chunks
+    {:ok, chunks}
+  end
+  def content(_), do: {:error, "Invalid file format!"}
+
+  @spec content!(bitstring) :: bitstring | no_return
+  def content!(png) do
+    case content(png) do
+      {:ok, chunks} -> chunks
+      {:error, msg} -> raise(ArgumentError, msg)
+    end
   end
 end
