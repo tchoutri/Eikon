@@ -17,8 +17,8 @@ defmodule Eikon.GIF.Parser do
 
   @type gif :: struct()
 
-  @magic89 <<0x47, 0x49, 0x46, 0x38, 0x39, 0x61>>
-  @magic87 <<0x47, 0x49, 0x46, 0x38, 0x37, 0x61>>
+  @magic89 to_string([?G, ?I, ?F, ?8, ?9, ?a])
+  @magic87 to_string([?G, ?I, ?F, ?8, ?7, ?a])
 
   @doc "Check the magic number of the file."
   @spec magic?(bitstring) :: true | false
@@ -28,22 +28,31 @@ defmodule Eikon.GIF.Parser do
 
   @doc "Returns the metadata about the GIF file."
   @spec infos(bitstring) :: gif
-  def infos(<<@magic89, width :: size(16), height :: size(16), _ :: binary>>) do
+  def infos(<<@magic89, width :: little-size(16), height :: little-size(16), _ :: binary>>) do
     %GIF{width: width, height: height, version: "89a"}
   end
-  def infos(<<@magic87, width :: size(16), height :: size(16), _ :: binary>>) do
+  def infos(<<@magic87, width :: little-size(16), height :: little-size(16), _ :: binary>>) do
     %GIF{width: width, height: height, version: "89a"}
   end
 
   @doc "Returns the content of the GIF file"
-  @spec content(bitstring) :: bitstring | no_return
-  def content(<<@magic89, _width :: size(16), _height :: size(16), rest :: binary>>), do: rest
-  def content(<<@magic87, _width :: size(16), _height :: size(16), rest :: binary>>), do: rest
+  @spec content(bitstring) :: {:ok, bitstring} | {:error, String.t}
+  def content(<<@magic89, _width :: little-size(16), _height :: little-size(16), rest :: binary>>), do: {:ok, rest}
+  def content(<<@magic87, _width :: little-size(16), _height :: little-size(16), rest :: binary>>), do: {:ok, rest}
+  def content(_),                                                                     do: {:error, "Invalid file format!"}
+
+  @spec content!(bitstring) :: bitstring | no_return
+  def content!(bitstring) do
+    case content(bitstring) do
+      {:ok, rest}   -> rest
+      {:error, msg} -> raise(ArgumentError, msg)
+    end
+  end
 
   @spec parse(bitstring) :: {:ok, struct} | {:error, term}
   def parse(gif) do
     if magic?(gif) do
-      result = infos(gif) |> struct(images: content(gif))
+      result = infos(gif) |> struct(images: content!(gif))
       {:ok, result}
     else
       {:error, "Invalid file format!"}
