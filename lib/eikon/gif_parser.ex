@@ -1,5 +1,13 @@
 defmodule Eikon.GIF do
-  @moduledoc false
+  @moduledoc "A struct that holds several informations about a PNG file"
+  @typedoc """
+A struct with the following fields: 
+- :width
+- :height
+- :version
+- :images
+  """
+  @type t :: struct
   defstruct [
             :width,
             :height,
@@ -15,8 +23,6 @@ defmodule Eikon.GIF.Parser do
   alias Eikon.{GIF,Parser}
   @behaviour Parser
 
-  @type gif :: struct()
-
   @magic89 to_string([?G, ?I, ?F, ?8, ?9, ?a])
   @magic87 to_string([?G, ?I, ?F, ?8, ?7, ?a])
 
@@ -27,7 +33,7 @@ defmodule Eikon.GIF.Parser do
   def magic?(_),                             do: false
 
   @doc "Returns the metadata about the GIF file."
-  @spec infos(bitstring) :: gif
+  @spec infos(bitstring) :: GIF.t
   def infos(<<@magic89, width :: little-size(16), height :: little-size(16), _ :: binary>>) do
     %GIF{width: width, height: height, version: "89a"}
   end
@@ -41,6 +47,7 @@ defmodule Eikon.GIF.Parser do
   def content(<<@magic87, _width :: little-size(16), _height :: little-size(16), rest :: binary>>), do: {:ok, rest}
   def content(_),                                                                     do: {:error, "Invalid file format!"}
 
+  @doc "Returns the content of the GIF file or raises an error"
   @spec content!(bitstring) :: bitstring | no_return
   def content!(bitstring) do
     case content(bitstring) do
@@ -49,7 +56,8 @@ defmodule Eikon.GIF.Parser do
     end
   end
 
-  @spec parse(bitstring) :: {:ok, struct} | {:error, term}
+  @doc "Returns a %GIF{} struct with the file's metadata and content"
+  @spec parse(bitstring) :: {:ok, GIF.t} | {:error, term}
   def parse(gif) do
     if magic?(gif) do
       result = infos(gif) |> struct(images: content!(gif))
@@ -59,6 +67,8 @@ defmodule Eikon.GIF.Parser do
     end
   end
 
+  @doc "Returns a %GIF{} struct with the file's metadata and content or raises an error"
+  @spec parse!(bitstring) :: GIF.t | no_return
   def parse!(gif) do
     case parse(gif) do
       {:ok, %GIF{}=gif} -> gif

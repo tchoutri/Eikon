@@ -1,5 +1,16 @@
 defmodule Eikon.PNG do
-  @moduledoc false
+  @moduledoc "A struct that holds several informations about a PNG file"
+  @typedoc """
+A struct with the following fields: 
+- :bit_depth
+- :chunks
+- :color_type
+- :compressionfilter
+- :height
+- :interlace
+- :width
+  """
+  @type t :: struct
   defstruct [
             :width,
             :height,
@@ -31,14 +42,12 @@ defmodule Eikon.PNG.Parser do
   @type crc :: integer()
   @type interlace :: integer()
 
-  @type png :: struct()
-
   # Headers
   @magic <<0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A>>
 
   ## API
   @doc "Parse a bitstring and return a struct with its metadata and content"
-  @spec parse(bitstring) :: {:ok, struct} | {:error, term}
+  @spec parse(bitstring) :: {:ok, PNG.t} | {:error, term}
   def parse(png) do
     if magic?(png) do
       result = infos(png) |> struct(chunks: content(png))
@@ -48,6 +57,8 @@ defmodule Eikon.PNG.Parser do
     end
   end
 
+  @doc "Parse a bitstring and return a struct with its metadata and content or raises an error"
+  @spec parse!(bitstring) :: PNG.t | no_return
   def parse!(png) do
     case parse(png) do
       {:ok, %PNG{}=png} -> png
@@ -61,7 +72,7 @@ defmodule Eikon.PNG.Parser do
   def magic?(_),                       do: false
 
   @doc "Returns the PNG metadata"
-  @spec infos(bitstring) :: png
+  @spec infos(bitstring) :: PNG.t
   def infos(<<@magic, 
             _length :: size(32),
             "IHDR",
@@ -98,6 +109,7 @@ defmodule Eikon.PNG.Parser do
   end
   def content(_), do: {:error, "Invalid file format!"}
 
+  @doc "Returns the content of the PNG file or raises an error"
   @spec content!(bitstring) :: bitstring | no_return
   def content!(png) do
     case content(png) do

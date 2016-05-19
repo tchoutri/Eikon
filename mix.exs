@@ -4,7 +4,7 @@ defmodule Eikon.Mixfile do
   def project do
     [app: :eikon,
      description: "Eikōn is an Elixir library providing a read-only interface for image files.",
-     version: "0.0.1",
+     version: "0.0.2",
      elixir: "~> 1.2",
      package: package,
      build_embedded: Mix.env == :prod,
@@ -24,10 +24,10 @@ defmodule Eikon.Mixfile do
 
   defp package do
     [
-      files:       ["lib", "README.md", "mix.exs"],
+      files:       ["lib", "README.md", "mix.exs", "priv", "test"],
       maintainers: ["Théophile Choutri <theophile@choutri.eu>"], 
       licenses:    ["MIT"],
-      links:       %{"Github" => "https://github.com/tchoutri/eikon", "Documentation" => "https://hexdocs.pm/eikon"}
+      links:       %{"Github" => "https://github.com/tchoutri/eikon"}
     ]
   end
 end
