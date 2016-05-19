@@ -19,7 +19,7 @@ defmodule Eikon.PNG.Parser do
   alias Eikon.{PNG,Parser}
   @behaviour Parser
 
-  # Type definitions
+  # (Useless) Type definitions
   @type magic :: bitstring()
 
   @type chunk_length :: integer()
