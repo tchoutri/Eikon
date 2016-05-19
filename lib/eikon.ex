@@ -4,6 +4,7 @@ defmodule Eikon do
 
   It currently supports the following formats:
   * PNG
+  * GIF
   """
 end
 
