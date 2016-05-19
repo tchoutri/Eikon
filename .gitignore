@@ -3,4 +3,6 @@
 /deps
 erl_crash.dump
 *.ez
-/priv
+
+## temp
+lib/eikon/jpeg_parser.ex
