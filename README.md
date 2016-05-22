@@ -2,6 +2,12 @@
 
 Eikōn is an image file parser. Feed it a PNG, JPG, and it will return informations about it.
 
+# Table of Contents
+1. [Installation](#installation)
+2. [Usage](#usage)
+3. [Examples](#examples)
+
+
 ## Installation
 
 ```Elixir
@@ -36,8 +42,8 @@ Every parser implements the [Parser](lib/eikon.ex#L11) behaviour, which contains
     * `content!/1`
 
 
-### Examples
-#### Parsing a binary
+## Examples
+### Parsing a binary
 
 ```Elixir
 Erlang/OTP 18 [erts-7.3] [source] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:false]
@@ -54,13 +60,13 @@ iex(2)⋅❯ File.read!("priv/mandelbrot.png") |> Parser.parse
   width: 1365}}
 ```
 
-#### Only return the metadata
+### Only return the metadata
 ```Elixir
 iex(3)⋅❯ File.read!("priv/mandelbrot.png") |> Parser.infos
 %Eikon.PNG{bit_depth: 8, chunks: nil, color_type: 2, compression: 0, filter: 0, height: 747, interlace: 0, width: 1365}
 ```
 
-#### Extract some particular metadata
+### Extract some particular metadata
 ```Elixir
 iex(4)⋅❯ image = (File.read!("priv/mandelbrot.png") |> Parser.infos)
 %Eikon.PNG{bit_depth: 8, chunks: nil, color_type: 2, compression: 0, filter: 0,
@@ -69,7 +75,7 @@ iex(5)⋅❯ image.width
 1365
 ```
 
-#### Works also with GIFs
+### Works also with GIFs
 ```Elixir
 iex(6)⋅❯ alias Eikon.GIF.Parser
 nil
@@ -77,8 +83,9 @@ iex(7)⋅❯ File.read!("priv/hammer_time.gif") |> Parser.infos
 %Eikon.GIF{height: 540, images: nil, version: "89a", width: 960}
 ```
 
-#### When you just want to know if it's a valid file.
+### When you just want to know if it's a valid file.
 ```Elixir
 iex(8)⋅❯ File.read!("priv/hammer_time.gif") |> Parser.magic?
 true
 ```
+
