@@ -1,4 +1,4 @@
-# Eikōn [![Elixir](https://cdn.rawgit.com/tchoutri/Eikon/master/elixir.svg)](http://elixir-lang.org) [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/tchoutri/eikon/master/LICENSE) [![Hex Version](http://img.shields.io/hexpm/v/eikon.svg?style=flat-square)](https://hex.pm/packages/eikon) [![Deps Status](https://beta.hexfaktor.org/badge/all/github/tchoutri/Exon.svg)](https://beta.hexfaktor.org/github/tchoutri/Exon)
+# Eikōn [![Elixir](https://cdn.rawgit.com/tchoutri/Eikon/master/elixir.svg)](http://elixir-lang.org) [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/tchoutri/eikon/master/LICENSE) [![Hex Version](http://img.shields.io/hexpm/v/eikon.svg?style=flat-square)](https://hex.pm/packages/eikon) [![Deps Status](https://beta.hexfaktor.org/badge/all/github/tchoutri/Eikon.svg)](https://beta.hexfaktor.org/github/tchoutri/Eikon)
 
 Eikōn is an image file parser. Feed it a PNG, JPG, and it will return informations about it.
 
